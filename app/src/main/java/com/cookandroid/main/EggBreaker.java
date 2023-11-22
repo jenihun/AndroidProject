@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class EggBreaker extends AppCompatActivity {
 
     int count = 0;
 
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.eggbreaker_layout);
 
         Button eggBreakButton = (Button) findViewById(R.id.eggBreakButton);
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 count++;
                 if(count == Randomnum) {
-                    Toast.makeText(MainActivity.this, "축하합니다! 당첨되셨습니다." + "행운의 숫자는 " + Randomnum, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EggBreaker.this, "축하합니다! 당첨되셨습니다." + "행운의 숫자는 " + Randomnum, Toast.LENGTH_SHORT).show();
                     Randomnum = random.nextInt(50);
                     count = 0;
                 }
