@@ -15,9 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_view);
 
-        // Firebase SDK 초기화
         FirebaseApp.initializeApp(this);
-
         ImageView lala_gif_img = (ImageView)findViewById(R.id.lala_gif_img);
         Glide.with(this).load(R.drawable.background).into(lala_gif_img);
 

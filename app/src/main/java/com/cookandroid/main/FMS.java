@@ -8,7 +8,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class FMS extends FirebaseMessagingService {
     @Override
-    public void onNewToken(@NonNull String token){
+    public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
         Log.d("FCM Token", token);
     }
