@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_view);
 
         Button eggGameStartbtn = (Button) findViewById(R.id.eggGamestartbtn);
+        Button PaperPlaneGameStartbtn = (Button) findViewById(R.id.PaperPlaneGameStartbtn);
 
         ImageView lala_gif_img = (ImageView)findViewById(R.id.lala_gif_img);
         Glide.with(this).load(R.drawable.background).into(lala_gif_img);
@@ -31,6 +32,16 @@ public class MainActivity extends AppCompatActivity {
                 finish();  // 현재 액티비티를 종료
             }
         });
+
+        PaperPlaneGameStartbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PlaneGame_Activity.class);
+                startActivity(intent);
+                finish();  // 현재 액티비티를 종료
+            }
+        });
+
 
     }
 }

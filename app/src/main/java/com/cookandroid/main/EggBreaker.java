@@ -7,12 +7,20 @@ import android.app.Notification;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -92,19 +100,6 @@ public class EggBreaker extends AppCompatActivity {
         });
     }
 
-//    // DB에서 FCM 토큰 호출
-//    String registrationToken = "YOUR_REGISTRATION_TOKEN";
-//
-//    // 게임 결과 생성(메세지 내용)
-//    Message message = Message.builder()
-//            .putData("score", "850")
-//            .putData("time", "2:45")
-//            .setToken(registrationToken)
-//            .build();
-//
-//    String response = FirebaseMessaging.getInstance().send(message);
-
-
     // 다시하기, 메인 버튼을 표시하는 메서드
     private void showReplayButton() {
         replayButton.setVisibility(View.VISIBLE);
@@ -127,5 +122,8 @@ public class EggBreaker extends AppCompatActivity {
         count = 0;
         // 새로운 랜덤 숫자 생성
         Randomnum = random.nextInt(50);
+
+
     }
+
 }

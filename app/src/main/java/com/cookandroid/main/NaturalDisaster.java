@@ -41,9 +41,7 @@ public class NaturalDisaster {
         }
     }
 
-    public void birdShot(PaperPlane plane){
-        plane.decreaseDurability(10f);
-    }
+    public void birdShot(PaperPlane plane){plane.decreaseDurability(10f);}
 
     public void heavyRain(PaperPlane plane){
         plane.decreaseDurability(10f);

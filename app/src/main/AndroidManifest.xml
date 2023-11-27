@@ -26,6 +26,7 @@
         <activity android:name=".Register_Activity"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".EggBreaker"/>
+        <activity android:name=".PlaneGame_Activity"/>
     </application>
 
 </manifest>

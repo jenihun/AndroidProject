@@ -2,6 +2,12 @@ package com.cookandroid.main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+
+
 
 public class PaperPlane {
 
@@ -11,11 +17,28 @@ public class PaperPlane {
     private long survivalTime;
     private static int nextId = 1;
     private int id;
+    // 초당 내구도 감소량
+    private static final float DURABILITY_DECREASE_PER_SECOND = 1f;
+    // 내구도를 감소시키는 ScheduledExecutorService
+    private ScheduledExecutorService durabilityDecreaseScheduler;
 
-    public PaperPlane(){
+    public PaperPlane() {
         this.id = nextId++;
         this.survivalTime = System.currentTimeMillis();
+        startDurabilityDecreaseScheduler();
     }
+
+    // 내구도를 감소시키는 스케줄러 시작
+    private void startDurabilityDecreaseScheduler() {
+        durabilityDecreaseScheduler = Executors.newSingleThreadScheduledExecutor();
+        durabilityDecreaseScheduler.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                decreaseDurability(DURABILITY_DECREASE_PER_SECOND);
+            }
+        }, 0, 1, TimeUnit.SECONDS); // 초당 1번씩 실행
+    }
+
     //아이디 값 리셋
     public static void resetNextId() {
         nextId = 1;
@@ -42,12 +65,13 @@ public class PaperPlane {
     }
 
     // 내구도 감소 메서드
-    public void decreaseDurability(float amount){
+    public void decreaseDurability(float amount) {
         durability -= amount;
-        if(durability < 0){
-            durability = 0;
+        if (durability < 0f) {
+            durability = 0f;
         }
     }
+
 
     // 입력받은 수만 큼 비행기를 생성하는 메서드
     public static List<PaperPlane> createPaperPlanes(int numberOfPlanes) {

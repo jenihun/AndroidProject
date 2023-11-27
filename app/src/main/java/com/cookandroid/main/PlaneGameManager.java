@@ -1,65 +1,49 @@
 package com.cookandroid.main;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaneGameManager {
 
-    // 벌칙에 해당하는 사람 수
     private int selectPeoplenum;
-    // 추락한 비행기 수를 저장하는 변수
-    private int crashedPlanes = 0;
-    
-    // 종이비행기 객체를 저장할 리스트
     private List<PaperPlane> paperPlanes;
+    private List<PaperPlane> defeatedPlanes; // 패배한 비행기들을 저장하는 리스트
+
+    private NaturalDisaster naturalDisaster;
 
     public PlaneGameManager(List<PaperPlane> paperPlanes, int selectPeoplenum) {
         this.paperPlanes = paperPlanes;
         this.selectPeoplenum = selectPeoplenum;
+        this.defeatedPlanes = new ArrayList<>();
     }
 
-    // 게임 업데이트 메서드
-    public void updateGame() {
+    public boolean updateGame() {
+        int crashedCount = 0;
 
+        // 종이비행기 리스트를 순회하면서 내구도가 0이하인 비행기를 찾음
         for (PaperPlane plane : paperPlanes) {
-            // 내구도가 0이 되면 벌칙을 받는 인원 추가
-            if (plane.getDurability() == 0) {
-                selectPeoplenum++;
-                crashedPlanes++;
-            }
+            if (plane.getDurability() <= 0) {
+                crashedCount++;
+                defeatedPlanes.add(plane); // 패배한 비행기 리스트에 추가
 
-            // 벌칙 인원 수 만큼의 비행기가 추락하면 나머지는 생존하여 승리
-            if (crashedPlanes >= selectPeoplenum) {
-                declareVictory(plane);
-                return; // 승리 조건 충족 시 더 이상 게임 업데이트를 진행하지 않고 종료
+                // 종이비행기가 추락한 경우 추가적인 처리를 할 수 있음
+                // 예를 들어, 각 비행기의 상태를 로그로 출력하거나 다른 동작을 수행할 수 있음
             }
-//            // 생존시간이 30초가 넘으면 승리 조건
-//            if ((System.currentTimeMillis() - plane.getSurvivalTime()) > 30000) {
-//                declareVictory(plane);
-//            }
+        }
+
+        // 자연재해 이벤트 발생
+        naturalDisaster.randomEvent(paperPlanes);
+
+        // 추락한 비행기 수가 벌칙 인원 수보다 많으면 게임 종료
+        if (crashedCount >= selectPeoplenum) {
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
-    // 승리 조건 선언 메서드
-    private void declareVictory(PaperPlane winningPlane) {
-        System.out.println("Victory! The plane survived the longest: " +
-                "Durability: " + winningPlane.getDurability() +
-                ", Distance: " + winningPlane.getDistance() +
-                ", Survival Time: " + (System.currentTimeMillis() - winningPlane.getSurvivalTime()) + " milliseconds");
-
-        // 게임 종료 시 해당 비행기의 ID 반환
-        int winningPlaneId = winningPlane.getId();
-        System.out.println("Winning Plane ID: " + winningPlaneId);
-        // 게임 종료 처리를 추가할 수 있습니다.
+    // 패배한 비행기들의 정보를 반환
+    public List<PaperPlane> getDefeatedPlanes() {
+        return defeatedPlanes;
     }
-
-//    public static void main(String[] args) {
-//        // 게임 시작
-//        List<PaperPlane> planes = PaperPlane.createPaperPlanes(5);
-//        PlaneGameManager gameManager = new PlaneGameManager(planes);
-//
-//        // 게임 루프
-//        while (true) {
-//            gameManager.updateGame();
-//        }
-//    }
 }
