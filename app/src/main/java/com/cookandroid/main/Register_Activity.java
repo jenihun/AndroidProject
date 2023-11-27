@@ -2,6 +2,7 @@ package com.cookandroid.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +54,7 @@ public class Register_Activity extends AppCompatActivity {
         if (!password.equals(confirmPassword)) {
             // 비밀번호와 확인 비밀번호가 일치하지 않을 경우
             Toast.makeText(Register_Activity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+
             return;
         }
 
@@ -68,6 +70,10 @@ public class Register_Activity extends AppCompatActivity {
                         } else {
                             // 회원가입 실패 시
                             Toast.makeText(Register_Activity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                            Exception exception = task.getException();
+                            if(exception != null){
+                                Log.e("Registration",exception.getMessage());
+                            }
                         }
                     }
                 });

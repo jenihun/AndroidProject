@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +28,8 @@ public class Login_Activity extends AppCompatActivity {
     private EditText editTextPassword;
     private Button buttonLogin;
 
+    private Button buttonRegister;
+
     private FirebaseAuth mAuth;
 
     @Override
@@ -34,11 +37,24 @@ public class Login_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_login);
 
+        FirebaseApp.initializeApp(this);
+
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
 
         mAuth = FirebaseAuth.getInstance();
+
+        buttonRegister = findViewById(R.id.buttonRegister);
+
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login_Activity.this, Register_Activity.class);
+                startActivity(intent);
+                finish();  // 현재 액티비티를 종료
+            }
+        });
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

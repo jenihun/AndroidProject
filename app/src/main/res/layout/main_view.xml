@@ -193,6 +193,7 @@
                                 android:layout_height="50dp"
                                 android:layout_gravity="right"
                                 android:backgroundTint="#0B1754"
+                                android:id="@+id/eggGamestartbtn"
                                 android:text="게임시작"/>
 
                             <Button
