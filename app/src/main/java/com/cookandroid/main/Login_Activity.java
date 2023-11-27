@@ -11,11 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class Login_Activity extends AppCompatActivity {
 
@@ -50,11 +54,46 @@ public class Login_Activity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // 로그인 성공
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    updateUI(user);
+                                    // uid를 얻어옴
+                                    String uid = user.getUid();
+
+                                    // FCM 토큰 얻어오기
+                                    FirebaseMessaging.getInstance().getToken()
+                                            .addOnCompleteListener(new OnCompleteListener<String>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<String> task) {
+                                                    if (task.isSuccessful()) {
+                                                        String fcmToken = task.getResult();
+
+                                                        // Firebase 실시간 데이터베이스에 매핑 정보 저장
+                                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("uid_fcm_mapping");
+                                                        databaseReference.child(uid).setValue(fcmToken)
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        // 매핑 정보 저장 성공
+                                                                        Toast.makeText(Login_Activity.this, "UID와 FCM 토큰이 매핑되었습니다.", Toast.LENGTH_SHORT).show();
+                                                                        updateUI(user);
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        // 매핑 정보 저장 실패
+                                                                        Toast.makeText(Login_Activity.this, "매핑 정보를 저장하는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                                                        updateUI(null);
+                                                                    }
+                                                                });
+                                                    } else {
+                                                        // FCM 토큰 얻어오기 실패
+                                                        Toast.makeText(Login_Activity.this, "FCM 토큰을 얻어오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                                        updateUI(null);
+                                                    }
+                                                }
+                                            });
                                 } else {
                                     // 로그인 실패
-                                    Toast.makeText(Login_Activity.this, "인증 실패",
-                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login_Activity.this, "인증 실패", Toast.LENGTH_SHORT).show();
                                     updateUI(null);
                                 }
                             }
