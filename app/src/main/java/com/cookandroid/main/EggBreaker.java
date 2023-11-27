@@ -1,8 +1,11 @@
 package com.cookandroid.main;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Notification;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,9 +13,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 public class EggBreaker extends AppCompatActivity {
+
+    MediaPlayer mediaPlayer;
 
     int count = 0;
     private Random random = new Random();
@@ -28,6 +39,11 @@ public class EggBreaker extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.eggbreaker_layout);
+        
+        //음악 재생
+        mediaPlayer = MediaPlayer.create(this, R.raw.test);
+        mediaPlayer.setLooping(true); //무한재생
+        mediaPlayer.start();
 
         // title 초기화
         title = findViewById(R.id.title);
@@ -75,6 +91,19 @@ public class EggBreaker extends AppCompatActivity {
             }
         });
     }
+
+//    // DB에서 FCM 토큰 호출
+//    String registrationToken = "YOUR_REGISTRATION_TOKEN";
+//
+//    // 게임 결과 생성(메세지 내용)
+//    Message message = Message.builder()
+//            .putData("score", "850")
+//            .putData("time", "2:45")
+//            .setToken(registrationToken)
+//            .build();
+//
+//    String response = FirebaseMessaging.getInstance().send(message);
+
 
     // 다시하기, 메인 버튼을 표시하는 메서드
     private void showReplayButton() {

@@ -2,6 +2,7 @@ package com.cookandroid.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Login_Activity extends AppCompatActivity {
 
@@ -81,10 +85,16 @@ public class Login_Activity extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         String fcmToken = task.getResult();
 
-                                                        // Firebase 실시간 데이터베이스에 매핑 정보 저장
-                                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("uid_fcm_mapping");
-                                                        databaseReference.child(uid).setValue(fcmToken)
-                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        // 매핑 정보를 담을 Map 생성
+                                                        Map<String, Object> mappingData = new HashMap<>();
+                                                        mappingData.put("uid", uid);
+                                                        mappingData.put("fcmToken", fcmToken);
+
+                                                        // Firebase 실시간 데이터베이스에 매핑 정보 저장 -> 권한 설정해야함.
+                                                        FirebaseDatabase realtimeDB = FirebaseDatabase.getInstance();
+                                                        // 저장 경로 설정
+                                                        DatabaseReference myRef = realtimeDB.getReference("user");
+                                                        myRef.child(uid).setValue(mappingData).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                     @Override
                                                                     public void onSuccess(Void aVoid) {
                                                                         // 매핑 정보 저장 성공
