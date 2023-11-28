@@ -21,9 +21,11 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/backbutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#00000000"
                 android:src="@drawable/title" />
 
             <ScrollView
@@ -56,22 +58,16 @@
                             <ImageView
                                 android:layout_width="fill_parent"
                                 android:layout_height="100dp"
+                                android:background="#00ffffff"
                                 android:src="@drawable/title1" />
 
                             <Button
-                                android:id="@+id/PaperPlaneGameStartbtn"
+                                android:id="@+id/startbtn1"
                                 android:layout_width="150dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="right"
+                                android:layout_height="64dp"
+                                android:layout_gravity="center"
                                 android:backgroundTint="#0B1754"
                                 android:text="게임시작" />
-
-                            <Button
-                                android:layout_width="150dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="right"
-                                android:backgroundTint="#0B1754"
-                                android:text="게임방법" />
 
                         </LinearLayout>
 
@@ -102,18 +98,12 @@
                                 android:src="@drawable/title2" />
 
                             <Button
+                                android:id="@+id/startbtn2"
                                 android:layout_width="150dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="right"
+                                android:layout_height="64dp"
+                                android:layout_gravity="center"
                                 android:backgroundTint="#0B1754"
-                                android:text="게임시작"/>
-
-                            <Button
-                                android:layout_width="150dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="right"
-                                android:backgroundTint="#0B1754"
-                                android:text="게임방법"/>
+                                android:text="게임시작" />
 
 
 
@@ -146,18 +136,12 @@
                                 android:src="@drawable/title3" />
 
                             <Button
+                                android:id="@+id/startbtn3"
                                 android:layout_width="150dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="right"
+                                android:layout_height="64dp"
+                                android:layout_gravity="center"
                                 android:backgroundTint="#0B1754"
-                                android:text="게임시작"/>
-
-                            <Button
-                                android:layout_width="150dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="right"
-                                android:backgroundTint="#0B1754"
-                                android:text="게임방법"/>
+                                android:text="게임시작" />
 
 
 
@@ -190,19 +174,12 @@
                                 android:src="@drawable/title4" />
 
                             <Button
+                                android:id="@+id/startbtn4"
                                 android:layout_width="150dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="right"
+                                android:layout_height="64dp"
+                                android:layout_gravity="center"
                                 android:backgroundTint="#0B1754"
-                                android:id="@+id/eggGamestartbtn"
-                                android:text="게임시작"/>
-
-                            <Button
-                                android:layout_width="150dp"
-                                android:layout_height="50dp"
-                                android:layout_gravity="right"
-                                android:backgroundTint="#0B1754"
-                                android:text="게임방법"/>
+                                android:text="게임시작" />
 
 
 

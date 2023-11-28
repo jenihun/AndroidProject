@@ -11,9 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -47,11 +49,10 @@ public class EggBreaker extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.eggbreaker_layout);
+
+        ImageView lala_gif_img = (ImageView)findViewById(R.id.lala_gif_img);
+        Glide.with(this).load(R.drawable.background).into(lala_gif_img);
         
-        //음악 재생
-        mediaPlayer = MediaPlayer.create(this, R.raw.test);
-        mediaPlayer.setLooping(true); //무한재생
-        mediaPlayer.start();
 
         // title 초기화
         title = findViewById(R.id.title);
@@ -70,7 +71,7 @@ public class EggBreaker extends AppCompatActivity {
         mainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EggBreaker.this, MainActivity.class);
+                Intent intent = new Intent(EggBreaker.this, MainView.class);
                 startActivity(intent);
                 finish();  // 현재 액티비티를 종료
             }

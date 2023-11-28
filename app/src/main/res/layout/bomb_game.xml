@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ImageView
+            android:id="@+id/lala_gif_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:background="#99ffffff">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:src="@drawable/title2" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/bombImageView"
+                    android:layout_width="300dp"
+                    android:layout_height="280dp"
+                    android:src="@drawable/bomb"
+                    android:layout_centerInParent="true"
+                    android:clickable="true"/>
+
+                <ImageView
+                    android:id="@+id/youImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/you"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/winTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/bombImageView"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="48dp"
+                    android:text=""
+                    android:textSize="24sp"
+                    android:visibility="invisible"/>
+
+                <TextView
+                    android:id="@+id/countdownTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="16dp"
+                    android:text=""
+                    android:textSize="0sp"
+                    android:visibility="invisible" />
+
+
+                <!-- Start Game Button -->
+                <Button
+                    android:id="@+id/startButton"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:text="START GAME"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/bombImageView"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#0B1754"/>
+
+                <!-- Restart Game Button -->
+
+                <Button
+                    android:id="@+id/gobackButton"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/startButton"
+                    android:layout_centerHorizontal="true"
+                    android:backgroundTint="#0B1754"
+                    android:text="GO BACK" />
+
+                <Button
+                    android:id="@+id/restartButton"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:text="Restart Game"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/bombImageView"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#0B1754"
+                    android:visibility="invisible"/>
+            </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

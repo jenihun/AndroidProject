@@ -36,15 +36,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="#0B1754"
-                android:text="START" />
+                android:text="시작" />
 
             <Button
-                android:id="@+id/optionBtn"
+                android:id="@+id/endBtn"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="#0B1754"
-                android:text="OPTION"
+                android:text="종료"
                 android:textColorLink="@color/black" />
 
 
