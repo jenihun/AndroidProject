@@ -1,15 +1,25 @@
 package com.cookandroid.main;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.gridlayout.widget.GridLayout;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +36,21 @@ public class PlaneGame_Activity extends AppCompatActivity{
     private Spinner numberOfPeopleSpinner;
     private Button startButton;
 
+    private Button resultButton;
+    private Button mainButton;
     private int numberOfPlanes;
 
-    private boolean isGameOver;
+    private boolean isGameover;
+
+    NaturalDisaster naturalDisaster = new NaturalDisaster();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paperplane_layout);
 
-        gameManager = new PlaneGameManager(new ArrayList<>(), 0);
+        ImageView planegamebackground = (ImageView)findViewById(R.id.planebackground);
+        Glide.with(this).load(R.drawable.planegame_background).into(planegamebackground);
 
         planeNumTitle = findViewById(R.id.planeNumTitle);
         numberOfPlanesSpinner = findViewById(R.id.numberOfPlanesSpinner);
@@ -75,7 +90,7 @@ public class PlaneGame_Activity extends AppCompatActivity{
                     // 사용자가 벌칙 받을 인원을 선택한 경우
                     int numberOfPeople = Integer.parseInt(selectedNumberOfPeople);
                     // 게임 시작 메서드 호출
-                    startGame(numberOfPlanes, numberOfPeople);
+                    isGameover = startGame(numberOfPlanes, numberOfPeople);
                 } else {
                     // 사용자가 벌칙 받을 인원을 선택하지 않은 경우
                     Toast.makeText(PlaneGame_Activity.this, "벌칙 받을 인원을 선택하세요.", Toast.LENGTH_SHORT).show();
@@ -83,17 +98,85 @@ public class PlaneGame_Activity extends AppCompatActivity{
             }
         });
 
+        resultButton = (Button) findViewById(R.id.resultButton);
+
+        resultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDefeatDialog();
+                if (isGameover) {
+                    Log.d("PlaneGameManager", "isGameover is true");
+                    showDefeatDialog();
+                }
+            }
+        });
+
+        mainButton = (Button) findViewById(R.id.mainButton);
+
+        mainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PlaneGame_Activity.this, MainActivity.class);
+                startActivity(intent);
+                finish();  // 현재 액티비티를 종료
+            }
+        });
     }
+
     // 게임 시작 메서드
-    private void startGame(int numberOfPlanes, int numberOfPeople) {
-         List<PaperPlane> planes = PaperPlane.createPaperPlanes(numberOfPlanes);
-         PlaneGameManager gameManager = new PlaneGameManager(planes, numberOfPeople);
-         gameManager.updateGame();
-         this.isGameOver = gameManager.updateGame();
-        if (isGameOver) {
-            showDefeatDialog();
+    private boolean startGame(int numberOfPlanes, int numberOfPeople) {
+        List<PaperPlane> planes = PaperPlane.createPaperPlanes(numberOfPlanes);
+        gameManager = new PlaneGameManager(planes, numberOfPeople, naturalDisaster);
+        showGameMainScreen();
+        boolean isGameOver = gameManager.updateGame(); // 한 번 호출
+        Log.d("PlaneGameManager", "isGameOverValue: " + isGameOver);
+        addImageViewsWithNumbersToGridLayout(numberOfPlanes);
+        return isGameOver;
+    }
+
+    private void addImageViewsWithNumbersToGridLayout(int numberOfPlanes) {
+        GridLayout gridLayout = findViewById(R.id.planegridlayout);
+        gridLayout.setVisibility(View.VISIBLE);
+        gridLayout.setColumnCount(4);
+        gridLayout.setRowCount(2);
+        gridLayout.setAlignmentMode(GridLayout.ALIGN_MARGINS); // 추가: 가로 중앙 정렬
+
+        for (int i = 0; i < numberOfPlanes; i++) {
+            // 각 그리드 레이아웃 요소를 담을 LinearLayout 생성
+            LinearLayout linearLayout = new LinearLayout(this);
+            linearLayout.setLayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            ));
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            linearLayout.setGravity(Gravity.CENTER);
+
+            // ImageView 생성
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(
+                    200, // 너비
+                    200 // 높이
+            ));
+            imageView.setImageResource(R.drawable.main_plane);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(8, 8, 8, 8);
+
+            // TextView 생성 (번호)
+            TextView textView = new TextView(this);
+            textView.setText(String.valueOf(i + 1));
+            textView.setTextSize(18);
+            textView.setGravity(Gravity.CENTER);
+            textView.setTextColor(Color.BLACK);
+
+            // LinearLayout에 ImageView 및 TextView 추가
+            linearLayout.addView(imageView);
+            linearLayout.addView(textView);
+
+            // 새로운 LinearLayout을 GridLayout에 추가
+            gridLayout.addView(linearLayout);
         }
     }
+
 
     // showNextViews 메서드에 numberOfPlanes 매개변수 추가
     private void showNextViews(int numberOfPlanes) {
@@ -111,7 +194,15 @@ public class PlaneGame_Activity extends AppCompatActivity{
         this.numberOfPlanes = numberOfPlanes;
     }
 
-    // 패배자의 정보를 다이얼로그에 표시하는 메서드
+    private void showGameMainScreen(){
+        mainButton.setVisibility(View.VISIBLE);
+        resultButton.setVisibility(View.VISIBLE);
+
+        peopleNumTitle.setVisibility(View.GONE);
+        numberOfPeopleSpinner.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
+    }
+
     private void showDefeatDialog() {
         List<PaperPlane> defeatedPlanes = gameManager.getDefeatedPlanes();
 
@@ -128,7 +219,7 @@ public class PlaneGame_Activity extends AppCompatActivity{
 
         // AlertDialog.Builder를 사용하여 다이얼로그 생성
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Game Over") // 다이얼로그 제목
+        builder.setTitle("패배자들...") // 다이얼로그 제목
                 .setMessage(defeatInfo.toString()) // 패배 정보 메시지
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override

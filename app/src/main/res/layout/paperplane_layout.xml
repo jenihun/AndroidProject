@@ -1,57 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/planeNumTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="날릴 비행기의 개수를 정하시오"
-        android:textSize="32sp"
-        android:layout_marginTop="20dp" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/planebackground"
+            android:scaleType="centerCrop"
+            android:src="@drawable/planegame_background"/>
 
-    <Spinner
-        android:id="@+id/numberOfPlanesSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:entries="@array/plane_numbers" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+                <TextView
+                    android:id="@+id/planeNumTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="날릴 비행기의 개수를 정하시오"
+                    android:textSize="28sp"
+                    android:layout_marginTop="20dp" />
 
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="다음"
-        android:layout_marginTop="20dp" />
+                <Spinner
+                    android:id="@+id/numberOfPlanesSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:entries="@array/plane_numbers" />
 
-    <TextView
-        android:id="@+id/peopleNumTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="벌칙받을 인원을 정하시오"
-        android:visibility="gone"
-        android:textSize="32sp"
-        android:layout_marginTop="20dp" />
+                <Button
+                    android:id="@+id/nextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="다음"
+                    android:layout_marginTop="20dp" />
 
-    <Spinner
-        android:id="@+id/numberOfPeopleSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"
-        android:entries="@array/people_numbers" />
+                <TextView
+                    android:id="@+id/peopleNumTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="벌칙받을 인원을 정하시오"
+                    android:visibility="gone"
+                    android:textSize="32sp"
+                    android:layout_marginTop="20dp" />
 
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="게임시작"
-        android:layout_marginTop="20dp" />
+                <Spinner
+                    android:id="@+id/numberOfPeopleSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"
+                    android:entries="@array/people_numbers" />
 
-</LinearLayout>
+                <Button
+                    android:id="@+id/startButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="게임시작"
+                    android:layout_marginTop="20dp" />
+        </LinearLayout>
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/planegridlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:visibility="gone">
+        </androidx.gridlayout.widget.GridLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom|center">
+                <Button
+                    android:id="@+id/resultButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    android:text="결과 확인"
+                    android:onClick="onResultButtonClick"
+                    android:visibility="gone"/>
+                <!-- 메인 버튼 -->
+                <Button
+                    android:id="@+id/mainButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    android:text="메인으로"
+                    android:onClick="onResultButtonClick"
+                    android:visibility="gone"/>
+
+        </LinearLayout>
+        <!-- 결과 확인 버튼 -->
+
+</FrameLayout>
