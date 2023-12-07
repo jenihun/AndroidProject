@@ -82,6 +82,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="bottom|center">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:gravity="top|center"
+                    android:id="@+id/eventTextView"
+                    android:visibility="visible"/>
+                <!-- 결과 확인 버튼 -->
                 <Button
                     android:id="@+id/resultButton"
                     android:layout_width="150dp"
@@ -101,8 +110,6 @@
                     android:text="GO BACK"
                     android:onClick="onResultButtonClick"
                     android:visibility="gone"/>
-
         </LinearLayout>
-        <!-- 결과 확인 버튼 -->
 
 </FrameLayout>

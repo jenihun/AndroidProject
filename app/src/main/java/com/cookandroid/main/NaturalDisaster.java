@@ -9,6 +9,8 @@ public class NaturalDisaster {
 
     private Random random = new Random();
 
+    private String eventMessage;
+
     public String randomEvent(List<PaperPlane> planes) {
         Log.d("PaperPlane", "비행기 리스트 크기: " + planes.size());
         if (planes.isEmpty()) {

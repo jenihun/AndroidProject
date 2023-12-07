@@ -12,6 +12,10 @@ public class PlaneGameManager {
 
     private GameManagerListener listener;
 
+    public void setGameManagerListener(GameManagerListener listener) {
+        this.listener = listener;
+    }
+
     private Handler handler = new Handler();
     private final int NATURAL_DISASTER_INTERVAL = 5000; // 5초
 
@@ -31,6 +35,11 @@ public class PlaneGameManager {
             String eventMessage = naturalDisaster.randomEvent(paperPlanes); // 이벤트 메시지 가져오기
             Log.d("PlaneGameManager", "자연재해 이벤트 발생");
 
+            // 이벤트 메시지를 MainActivity로 전달
+            if (listener != null) {
+                listener.onEventMessageReceived(eventMessage);
+            }
+
             // updateGame() 호출
             if (!updateGame()) {
                 Log.d("PlaneGameManager", "다음 이벤트 예약");
@@ -39,7 +48,6 @@ public class PlaneGameManager {
                 Log.d("PlaneGameManager", "게임 종료");
             }
         }
-
     };
 
     public PlaneGameManager(List<PaperPlane> paperPlanes, int selectPeoplenum, NaturalDisaster naturalDisaster) {
@@ -83,16 +91,16 @@ public class PlaneGameManager {
         Log.d("PlaneGameManager", "Select People Num: " + selectPeoplenum);
 
         if (crashedCount >= selectPeoplenum) {
-            Log.d("PlaneGameManager", "게임 종료");
+            if (listener != null) {
+                listener.onGameFinished(true);
+            }
 
-            // 핸들러에 대기 중인 모든 콜백 및 메시지 제거
             handler.removeCallbacksAndMessages(null);
-
-            // 현재 실행 중인 콜백 제거
             handler.removeCallbacks(naturalDisasterEventRunnable);
 
             return true;
         }
+
 
         // 게임이 종료되지 않았다면 다음 이벤트 예약
         handler.postDelayed(naturalDisasterEventRunnable, NATURAL_DISASTER_INTERVAL);
@@ -103,4 +111,9 @@ public class PlaneGameManager {
     public List<PaperPlane> getDefeatedPlanes() {
         return defeatedPlanes;
     }
+
+    public synchronized boolean isGameover() {
+        return crashedCount >= selectPeoplenum;
+    }
+
 }
