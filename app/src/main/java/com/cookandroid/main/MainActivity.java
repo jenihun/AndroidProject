@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.bgm);
-        // mediaPlayer.setLooping(true); //무한재생
+        mediaPlayer.setLooping(true); //무한재생
         mediaPlayer.start();
 
         ImageView lala_gif_img = (ImageView)findViewById(R.id.lala_gif_img);
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,
                         MainView.class);
                 startActivity(intent);
+                finish();
             }
         });
 

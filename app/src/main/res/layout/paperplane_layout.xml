@@ -35,9 +35,10 @@
 
                 <Button
                     android:id="@+id/nextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="다음"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:backgroundTint="#0B1754"
+                    android:text="NEXT"
                     android:layout_marginTop="20dp" />
 
                 <TextView
@@ -59,10 +60,11 @@
 
                 <Button
                     android:id="@+id/startButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:backgroundTint="#0B1754"
                     android:visibility="gone"
-                    android:text="게임시작"
+                    android:text="GAME START"
                     android:layout_marginTop="20dp" />
         </LinearLayout>
 
@@ -82,19 +84,21 @@
             android:gravity="bottom|center">
                 <Button
                     android:id="@+id/resultButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="30dp"
-                    android:text="결과 확인"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:backgroundTint="#0B1754"
+                    android:textSize="20dp"
+                    android:text="RESULT"
                     android:onClick="onResultButtonClick"
                     android:visibility="gone"/>
                 <!-- 메인 버튼 -->
                 <Button
                     android:id="@+id/mainButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="30dp"
-                    android:text="메인으로"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:backgroundTint="#0B1754"
+                    android:textSize="20dp"
+                    android:text="GO BACK"
                     android:onClick="onResultButtonClick"
                     android:visibility="gone"/>
 

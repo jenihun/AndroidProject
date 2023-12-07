@@ -116,7 +116,7 @@ public class PlaneGame_Activity extends AppCompatActivity{
         mainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PlaneGame_Activity.this, MainActivity.class);
+                Intent intent = new Intent(PlaneGame_Activity.this, MainView.class);
                 startActivity(intent);
                 finish();  // 현재 액티비티를 종료
             }
@@ -212,9 +212,8 @@ public class PlaneGame_Activity extends AppCompatActivity{
         // 각 패배한 비행기의 정보를 문자열에 추가
         for (PaperPlane defeatedPlane : defeatedPlanes) {
             defeatInfo.append("내구도: ").append(defeatedPlane.getDurability())
-                    .append(", 거리: ").append(defeatedPlane.getDistance())
-                    .append(", 생존 시간: ").append(System.currentTimeMillis() - defeatedPlane.getSurvivalTime())
-                    .append(" milliseconds\n");
+                    .append(", 아이디: ").append(defeatedPlane.getId())
+                    .append("\n");
         }
 
         // AlertDialog.Builder를 사용하여 다이얼로그 생성

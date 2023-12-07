@@ -25,6 +25,7 @@ public class BombMethodActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(BombMethodActivity.this, BombActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
