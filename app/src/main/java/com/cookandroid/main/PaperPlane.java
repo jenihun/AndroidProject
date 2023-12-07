@@ -19,6 +19,19 @@ public class PaperPlane {
     private long survivalTime;
     private static int nextId = 1;
     private int id;
+
+    private boolean isDefeated = false;
+
+    public boolean isDefeated() {
+        return isDefeated;
+    }
+
+    // 비행기가 추락했을 때 호출되는 메서드
+    public void onCrash() {
+        isDefeated = true;
+        // 추가적인 처리가 필요하다면 여기에 작성
+    }
+
     // 초당 내구도 감소량
     private static final float DURABILITY_DECREASE_PER_SECOND = 2f;
     // 내구도를 감소시키는 ScheduledExecutorService

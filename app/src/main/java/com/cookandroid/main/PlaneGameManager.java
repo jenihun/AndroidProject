@@ -78,6 +78,7 @@ public class PlaneGameManager {
 
                 // 종이비행기가 추락한 경우 추가적인 처리를 할 수 있음
                 plane.stopDurabilityDecreaseScheduler();
+                plane.onCrash(); // 비행기가 패배했음을 처리
                 iterator.remove(); // 리스트에서 제거
             }
         }
@@ -114,6 +115,16 @@ public class PlaneGameManager {
 
     public synchronized boolean isGameover() {
         return crashedCount >= selectPeoplenum;
+    }
+
+    // 해당 비행기가 패배했는지 여부를 확인
+    public boolean isDefeated(PaperPlane plane) {
+        return plane.isDefeated();
+    }
+
+    // getPaperPlanes 메서드 추가
+    public List<PaperPlane> getPaperPlanes() {
+        return paperPlanes;
     }
 
 }

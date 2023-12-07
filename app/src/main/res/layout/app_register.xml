@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="315dp"
+            android:layout_height="300dp"
             android:layout_marginTop="16dp"
             android:scaleType="fitCenter"
             android:src="@drawable/title" />
@@ -32,6 +32,7 @@
             android:backgroundTint="#000000"
             android:hint="Email"
             android:inputType="textEmailAddress"
+            android:layout_marginTop="16dp"
             android:paddingLeft="9dp"
             android:textColor="#000000"
             android:textColorHint="#000000"
@@ -42,9 +43,9 @@
             android:layout_width="329dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="11dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="#000000"
+            android:layout_marginTop="16dp"
             android:hint="Password"
             android:inputType="textPassword"
             android:paddingLeft="8dp"
@@ -57,7 +58,6 @@
             android:layout_width="329dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="11dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="#000000"
             android:hint="Confirm Password"
@@ -77,10 +77,19 @@
     <Button
         android:id="@+id/buttonRegister"
         android:layout_width="245dp"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:backgroundTint="#0B1754"
         android:padding="5dp"
         android:text="Register" />
+    <Button
+        android:id="@+id/buttonMain"
+        android:layout_width="245dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="#0B1754"
+        android:padding="5dp"
+        android:text="Main" />
 </LinearLayout>

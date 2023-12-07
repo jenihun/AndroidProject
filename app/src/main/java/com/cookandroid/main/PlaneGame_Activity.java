@@ -42,12 +42,68 @@ public class PlaneGame_Activity extends AppCompatActivity implements GameManager
 
     private TextView eventTextView;
 
+    private LinearLayout naturalDisasterLayout;
+
+    private androidx.gridlayout.widget.GridLayout planegridlayout;
+
     private boolean isGameover;
 
     @Override
     public void onEventMessageReceived(String eventMessage) {
         // 이벤트 메시지를 받아와서 처리 (예: 텍스트뷰에 표시)
         eventTextView.setText(eventMessage);
+
+        // 이벤트 메시지에 따라 이미지뷰 추가
+        addNaturalDisasterImageView(eventMessage);
+    }
+
+    private void addNaturalDisasterImageView(String eventMessage) {
+        LinearLayout layout = findViewById(R.id.naturalDisasterLayout);
+
+        // 이전에 추가된 모든 자식 뷰(이미지뷰)를 제거
+        layout.removeAllViews();
+
+        // 이벤트 메시지에 따라 자연재해 이미지를 선택
+        int disasterImageResource = 0;
+        if (eventMessage.contains("새의 공격")) {
+            disasterImageResource = R.drawable.bird_attack;
+        } else if (eventMessage.contains("폭우")) {
+            disasterImageResource = R.drawable.heavy_rain;
+        } else if (eventMessage.contains("낙뢰")) {
+            disasterImageResource = R.drawable.thunder;
+        } else if (eventMessage.contains("날아오는 돌")) {
+            disasterImageResource = R.drawable.rock_attack;
+        } else if (eventMessage.contains("강한 기류")) {
+            disasterImageResource = R.drawable.strong_wind;
+        }
+
+        // 자연재해 이미지뷰 생성 및 추가
+        if (disasterImageResource != 0) {
+            // 새로운 LinearLayout 생성
+            LinearLayout newLayout = new LinearLayout(this);
+            newLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+            newLayout.setOrientation(LinearLayout.VERTICAL);
+            newLayout.setGravity(Gravity.CENTER);
+
+            // ImageView 생성
+            ImageView disasterImageView = new ImageView(this);
+            disasterImageView.setLayoutParams(new LinearLayout.LayoutParams(
+                    512, // 너비
+                    512 // 높이
+            ));
+            disasterImageView.setImageResource(disasterImageResource);
+            disasterImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            disasterImageView.setPadding(8, 8, 8, 8);
+
+            // 새로운 LinearLayout에 ImageView 추가
+            newLayout.addView(disasterImageView);
+
+            // 기존의 layout에 새로운 LinearLayout 추가
+            layout.addView(newLayout);
+        }
     }
 
     NaturalDisaster naturalDisaster = new NaturalDisaster();
@@ -57,7 +113,11 @@ public class PlaneGame_Activity extends AppCompatActivity implements GameManager
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paperplane_layout);
 
+        planegridlayout = (androidx.gridlayout.widget.GridLayout) findViewById(R.id.planegridlayout);
+
         eventTextView = (TextView) findViewById(R.id.eventTextView);
+
+        naturalDisasterLayout = (LinearLayout) findViewById(R.id.naturalDisasterLayout);
 
         ImageView planegamebackground = (ImageView)findViewById(R.id.planebackground);
         Glide.with(this).load(R.drawable.planegame_background).into(planegamebackground);
@@ -143,6 +203,49 @@ public class PlaneGame_Activity extends AppCompatActivity implements GameManager
         addImageViewsWithNumbersToGridLayout(numberOfPlanes);
     }
 
+    // 비행기 뷰 생성
+    private View createPlaneView(int planeId) {
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setGravity(Gravity.CENTER);
+
+        // ImageView 생성
+        ImageView imageView = new ImageView(this);
+        imageView.setLayoutParams(new LinearLayout.LayoutParams(
+                200, // 너비
+                200 // 높이
+        ));
+        imageView.setImageResource(R.drawable.main_plane);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setPadding(8, 8, 8, 8);
+
+        // TextView 생성 (번호)
+        TextView textView = new TextView(this);
+        textView.setText(String.valueOf(planeId));
+        textView.setTextSize(18);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(Color.BLACK);
+
+        // PaperPlane 객체 가져오기
+        PaperPlane plane = getPaperPlaneById(planeId);
+
+        // 탈락 여부 확인
+        if (gameManager != null && plane != null && gameManager.isDefeated(plane)) {
+            // 해당 비행기가 탈락한 경우 해당 뷰를 숨김
+            linearLayout.setVisibility(View.INVISIBLE);
+        }
+
+        // LinearLayout에 ImageView 및 TextView 추가
+        linearLayout.addView(imageView);
+        linearLayout.addView(textView);
+
+        return linearLayout;
+    }
+
     private void addImageViewsWithNumbersToGridLayout(int numberOfPlanes) {
         GridLayout gridLayout = findViewById(R.id.planegridlayout);
         gridLayout.setVisibility(View.VISIBLE);
@@ -151,41 +254,23 @@ public class PlaneGame_Activity extends AppCompatActivity implements GameManager
         gridLayout.setAlignmentMode(GridLayout.ALIGN_MARGINS); // 추가: 가로 중앙 정렬
 
         for (int i = 0; i < numberOfPlanes; i++) {
-            // 각 그리드 레이아웃 요소를 담을 LinearLayout 생성
-            LinearLayout linearLayout = new LinearLayout(this);
-            linearLayout.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            ));
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-            linearLayout.setGravity(Gravity.CENTER);
-
-            // ImageView 생성
-            ImageView imageView = new ImageView(this);
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(
-                    200, // 너비
-                    200 // 높이
-            ));
-            imageView.setImageResource(R.drawable.main_plane);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
-
-            // TextView 생성 (번호)
-            TextView textView = new TextView(this);
-            textView.setText(String.valueOf(i + 1));
-            textView.setTextSize(18);
-            textView.setGravity(Gravity.CENTER);
-            textView.setTextColor(Color.BLACK);
-
-            // LinearLayout에 ImageView 및 TextView 추가
-            linearLayout.addView(imageView);
-            linearLayout.addView(textView);
-
-            // 새로운 LinearLayout을 GridLayout에 추가
-            gridLayout.addView(linearLayout);
+            // 새로운 비행기 뷰 생성 및 추가
+            View planeView = createPlaneView(i + 1);
+            gridLayout.addView(planeView);
         }
     }
 
+    // 비행기 ID로 PaperPlane 객체 가져오기
+    private PaperPlane getPaperPlaneById(int planeId) {
+        if (gameManager != null) {
+            for (PaperPlane plane : gameManager.getPaperPlanes()) {
+                if (plane.getId() == planeId) {
+                    return plane;
+                }
+            }
+        }
+        return null;
+    }
 
     // showNextViews 메서드에 numberOfPlanes 매개변수 추가
     private void showNextViews(int numberOfPlanes) {
@@ -221,14 +306,14 @@ public class PlaneGame_Activity extends AppCompatActivity implements GameManager
 
         // 각 패배한 비행기의 정보를 문자열에 추가
         for (PaperPlane defeatedPlane : defeatedPlanes) {
-            defeatInfo.append("내구도: ").append(defeatedPlane.getDurability())
-                    .append(", 아이디: ").append(defeatedPlane.getId())
+            defeatInfo.append(", 아이디: ").append(defeatedPlane.getId())
+                    .append(", 비행시간: ").append(defeatedPlane.getSurvivalTime())
                     .append("\n");
         }
 
         // AlertDialog.Builder를 사용하여 다이얼로그 생성
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("패배자들...") // 다이얼로그 제목
+        builder.setTitle("추락한 비행기들") // 다이얼로그 제목
                 .setMessage(defeatInfo.toString()) // 패배 정보 메시지
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -244,9 +329,11 @@ public class PlaneGame_Activity extends AppCompatActivity implements GameManager
 
     public void onGameFinished(boolean isGameover) {
         if (isGameover) {
-            Log.d("PlaneGameManager", "isGameover is true");
             showDefeatDialog();
             eventTextView.setVisibility(View.INVISIBLE);
+            naturalDisasterLayout.setVisibility(View.INVISIBLE);
+            planegridlayout.setVisibility(View.INVISIBLE);
+
         }
     }
 }
